@@ -9,8 +9,13 @@ import java.lang.reflect.InvocationTargetException;
 
 import java.lang.reflect.Method;
 
+/**
+ * With this class you can write data to items using NMS.
+ */
 @SuppressWarnings("ConstantConditions")
 public class NBTTags {
+
+    // region Setting Data
 
     /**
      * With this method you can add NBT Tag data to item. Written with reflection so it should work on all versions.
@@ -21,7 +26,295 @@ public class NBTTags {
      * @return Your ItemStack with NBT data added
      */
     @NotNull
-    public static ItemStack addNBTTag(@NotNull ItemStack item, @NotNull final String key, @NotNull final String value) {
+    public static ItemStack setByte(@NotNull ItemStack item, @NotNull final String key, final byte value) {
+
+        try {
+            final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
+            final Class<?> craftItemStackClass = Reflection.getCraftbukkitClass("inventory.CraftItemStack");
+            final Class<?> nbtTagCompoundClass = Reflection.getNMSClass("NBTTagCompound");
+
+            final Method asNMSCopy = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
+            final Method asBukkitCopy = craftItemStackClass.getMethod("asBukkitCopy", itemStackClass);
+
+            final Method hasTag = itemStackClass.getMethod("hasTag");
+            final Method getTag = itemStackClass.getMethod("getTag");
+            final Method setTag = itemStackClass.getMethod("setTag", nbtTagCompoundClass);
+
+            final Method setByte = nbtTagCompoundClass.getMethod("setByte", String.class, byte.class);
+
+            final Object nmsItem = asNMSCopy.invoke(null, item);
+
+            Object compound;
+
+            if ((boolean) hasTag.invoke(nmsItem)) {
+                compound = getTag.invoke(nmsItem);
+            } else {
+                compound = nbtTagCompoundClass.newInstance();
+            }
+
+            setByte.invoke(compound, key, value);
+
+            setTag.invoke(nmsItem, compound);
+
+            item = (ItemStack) asBukkitCopy.invoke(null, nmsItem);
+
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | NullPointerException ignored) { }
+
+
+        return item;
+    }
+
+    /**
+     * With this method you can add NBT Tag data to item. Written with reflection so it should work on all versions.
+     *
+     * @param item Item you want to add
+     * @param key Key under which your data will be added
+     * @param value Value you want to add
+     * @return Your ItemStack with NBT data added
+     */
+    @NotNull
+    public static ItemStack setShort(@NotNull ItemStack item, @NotNull final String key, final short value) {
+
+        try {
+            final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
+            final Class<?> craftItemStackClass = Reflection.getCraftbukkitClass("inventory.CraftItemStack");
+            final Class<?> nbtTagCompoundClass = Reflection.getNMSClass("NBTTagCompound");
+
+            final Method asNMSCopy = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
+            final Method asBukkitCopy = craftItemStackClass.getMethod("asBukkitCopy", itemStackClass);
+
+            final Method hasTag = itemStackClass.getMethod("hasTag");
+            final Method getTag = itemStackClass.getMethod("getTag");
+            final Method setTag = itemStackClass.getMethod("setTag", nbtTagCompoundClass);
+
+            final Method setShort = nbtTagCompoundClass.getMethod("setShort", String.class, short.class);
+
+            final Object nmsItem = asNMSCopy.invoke(null, item);
+
+            Object compound;
+
+            if ((boolean) hasTag.invoke(nmsItem)) {
+                compound = getTag.invoke(nmsItem);
+            } else {
+                compound = nbtTagCompoundClass.newInstance();
+            }
+
+            setShort.invoke(compound, key, value);
+
+            setTag.invoke(nmsItem, compound);
+
+            item = (ItemStack) asBukkitCopy.invoke(null, nmsItem);
+
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | NullPointerException ignored) { }
+
+
+        return item;
+    }
+
+    /**
+     * With this method you can add NBT Tag data to item. Written with reflection so it should work on all versions.
+     *
+     * @param item Item you want to add
+     * @param key Key under which your data will be added
+     * @param value Value you want to add
+     * @return Your ItemStack with NBT data added
+     */
+    @NotNull
+    public static ItemStack setInt(@NotNull ItemStack item, @NotNull final String key, final int value) {
+
+        try {
+            final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
+            final Class<?> craftItemStackClass = Reflection.getCraftbukkitClass("inventory.CraftItemStack");
+            final Class<?> nbtTagCompoundClass = Reflection.getNMSClass("NBTTagCompound");
+
+            final Method asNMSCopy = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
+            final Method asBukkitCopy = craftItemStackClass.getMethod("asBukkitCopy", itemStackClass);
+
+            final Method hasTag = itemStackClass.getMethod("hasTag");
+            final Method getTag = itemStackClass.getMethod("getTag");
+            final Method setTag = itemStackClass.getMethod("setTag", nbtTagCompoundClass);
+
+            final Method setInt = nbtTagCompoundClass.getMethod("setInt", String.class, int.class);
+
+            final Object nmsItem = asNMSCopy.invoke(null, item);
+
+            Object compound;
+
+            if ((boolean) hasTag.invoke(nmsItem)) {
+                compound = getTag.invoke(nmsItem);
+            } else {
+                compound = nbtTagCompoundClass.newInstance();
+            }
+
+            setInt.invoke(compound, key, value);
+
+            setTag.invoke(nmsItem, compound);
+
+            item = (ItemStack) asBukkitCopy.invoke(null, nmsItem);
+
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ignored) { }
+
+
+        return item;
+    }
+
+    /**
+     * With this method you can add NBT Tag data to item. Written with reflection so it should work on all versions.
+     *
+     * @param item Item you want to add
+     * @param key Key under which your data will be added
+     * @param value Value you want to add
+     * @return Your ItemStack with NBT data added
+     */
+    @NotNull
+    public static ItemStack setLong(@NotNull ItemStack item, @NotNull final String key, final long value) {
+
+        try {
+            final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
+            final Class<?> craftItemStackClass = Reflection.getCraftbukkitClass("inventory.CraftItemStack");
+            final Class<?> nbtTagCompoundClass = Reflection.getNMSClass("NBTTagCompound");
+
+            final Method asNMSCopy = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
+            final Method asBukkitCopy = craftItemStackClass.getMethod("asBukkitCopy", itemStackClass);
+
+            final Method hasTag = itemStackClass.getMethod("hasTag");
+            final Method getTag = itemStackClass.getMethod("getTag");
+            final Method setTag = itemStackClass.getMethod("setTag", nbtTagCompoundClass);
+
+            final Method setLong = nbtTagCompoundClass.getMethod("setLong", String.class, long.class);
+
+            final Object nmsItem = asNMSCopy.invoke(null, item);
+
+            Object compound;
+
+            if ((boolean) hasTag.invoke(nmsItem)) {
+                compound = getTag.invoke(nmsItem);
+            } else {
+                compound = nbtTagCompoundClass.newInstance();
+            }
+
+            setLong.invoke(compound, key, value);
+
+            setTag.invoke(nmsItem, compound);
+
+            item = (ItemStack) asBukkitCopy.invoke(null, nmsItem);
+
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ignored) { }
+
+
+        return item;
+    }
+
+    /**
+     * With this method you can add NBT Tag data to item. Written with reflection so it should work on all versions.
+     *
+     * @param item Item you want to add
+     * @param key Key under which your data will be added
+     * @param value Value you want to add
+     * @return Your ItemStack with NBT data added
+     */
+    @NotNull
+    public static ItemStack setFloat(@NotNull ItemStack item, @NotNull final String key, final float value) {
+
+        try {
+            final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
+            final Class<?> craftItemStackClass = Reflection.getCraftbukkitClass("inventory.CraftItemStack");
+            final Class<?> nbtTagCompoundClass = Reflection.getNMSClass("NBTTagCompound");
+
+            final Method asNMSCopy = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
+            final Method asBukkitCopy = craftItemStackClass.getMethod("asBukkitCopy", itemStackClass);
+
+            final Method hasTag = itemStackClass.getMethod("hasTag");
+            final Method getTag = itemStackClass.getMethod("getTag");
+            final Method setTag = itemStackClass.getMethod("setTag", nbtTagCompoundClass);
+
+            final Method setFloat = nbtTagCompoundClass.getMethod("setFloat", String.class, float.class);
+
+            final Object nmsItem = asNMSCopy.invoke(null, item);
+
+            Object compound;
+
+            if ((boolean) hasTag.invoke(nmsItem)) {
+                compound = getTag.invoke(nmsItem);
+            } else {
+                compound = nbtTagCompoundClass.newInstance();
+            }
+
+            setFloat.invoke(compound, key, value);
+
+            setTag.invoke(nmsItem, compound);
+
+            item = (ItemStack) asBukkitCopy.invoke(null, nmsItem);
+
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ignored) { }
+
+
+        return item;
+    }
+
+    /**
+     * With this method you can add NBT Tag data to item. Written with reflection so it should work on all versions.
+     *
+     * @param item Item you want to add
+     * @param key Key under which your data will be added
+     * @param value Value you want to add
+     * @return Your ItemStack with NBT data added
+     */
+    @NotNull
+    public static ItemStack setDouble(@NotNull ItemStack item, @NotNull final String key, final double value) {
+
+        try {
+            final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
+            final Class<?> craftItemStackClass = Reflection.getCraftbukkitClass("inventory.CraftItemStack");
+            final Class<?> nbtTagCompoundClass = Reflection.getNMSClass("NBTTagCompound");
+
+            final Method asNMSCopy = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
+            final Method asBukkitCopy = craftItemStackClass.getMethod("asBukkitCopy", itemStackClass);
+
+            final Method hasTag = itemStackClass.getMethod("hasTag");
+            final Method getTag = itemStackClass.getMethod("getTag");
+            final Method setTag = itemStackClass.getMethod("setTag", nbtTagCompoundClass);
+
+            final Method setDouble = nbtTagCompoundClass.getMethod("setDouble", String.class, double.class);
+
+            final Object nmsItem = asNMSCopy.invoke(null, item);
+
+            Object compound;
+
+            if ((boolean) hasTag.invoke(nmsItem)) {
+                compound = getTag.invoke(nmsItem);
+            } else {
+                compound = nbtTagCompoundClass.newInstance();
+            }
+
+            setDouble.invoke(compound, key, value);
+
+            setTag.invoke(nmsItem, compound);
+
+            item = (ItemStack) asBukkitCopy.invoke(null, nmsItem);
+
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ignored) { }
+
+
+        return item;
+    }
+
+    /**
+     * With this method you can add NBT Tag data to item. Written with reflection so it should work on all versions.
+     *
+     * @param item Item you want to add
+     * @param key Key under which your data will be added
+     * @param value Value you want to add
+     * @return Your ItemStack with NBT data added
+     */
+    @NotNull
+    public static ItemStack setString(@NotNull ItemStack item, @NotNull final String key, @NotNull final String value) {
 
         try {
             final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
@@ -69,7 +362,7 @@ public class NBTTags {
      * @return Your ItemStack with NBT data added
      */
     @NotNull
-    public static ItemStack addNBTTag(@NotNull ItemStack item, @NotNull final String key, @NotNull final Integer value) {
+    public static ItemStack setByteArray(@NotNull ItemStack item, @NotNull final String key, final byte[] value) {
 
         try {
             final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
@@ -83,7 +376,7 @@ public class NBTTags {
             final Method getTag = itemStackClass.getMethod("getTag");
             final Method setTag = itemStackClass.getMethod("setTag", nbtTagCompoundClass);
 
-            final Method setInt = nbtTagCompoundClass.getMethod("setInt", String.class, Integer.class);
+            final Method setByteArray = nbtTagCompoundClass.getMethod("setByteArray", String.class, byte[].class);
 
             final Object nmsItem = asNMSCopy.invoke(null, item);
 
@@ -95,14 +388,14 @@ public class NBTTags {
                 compound = nbtTagCompoundClass.newInstance();
             }
 
-            setInt.invoke(compound, key, value);
+            setByteArray.invoke(compound, key, value);
 
             setTag.invoke(nmsItem, compound);
 
             item = (ItemStack) asBukkitCopy.invoke(null, nmsItem);
 
 
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ignored) { }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | NullPointerException ignored) { }
 
 
         return item;
@@ -117,7 +410,7 @@ public class NBTTags {
      * @return Your ItemStack with NBT data added
      */
     @NotNull
-    public static ItemStack addNBTTag(@NotNull ItemStack item, @NotNull final String key, @NotNull final Double value) {
+    public static ItemStack setIntArray(@NotNull ItemStack item, @NotNull final String key, final int[] value) {
 
         try {
             final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
@@ -131,7 +424,7 @@ public class NBTTags {
             final Method getTag = itemStackClass.getMethod("getTag");
             final Method setTag = itemStackClass.getMethod("setTag", nbtTagCompoundClass);
 
-            final Method setDouble = nbtTagCompoundClass.getMethod("setDouble", String.class, Double.class);
+            final Method setIntArray = nbtTagCompoundClass.getMethod("setIntArray", String.class, int[].class);
 
             final Object nmsItem = asNMSCopy.invoke(null, item);
 
@@ -143,18 +436,19 @@ public class NBTTags {
                 compound = nbtTagCompoundClass.newInstance();
             }
 
-            setDouble.invoke(compound, key, value);
+            setIntArray.invoke(compound, key, value);
 
             setTag.invoke(nmsItem, compound);
 
             item = (ItemStack) asBukkitCopy.invoke(null, nmsItem);
 
 
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ignored) { }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | NullPointerException ignored) { }
 
 
         return item;
     }
+
 
     /**
      * With this method you can add NBT Tag data to item. Written with reflection so it should work on all versions.
@@ -165,55 +459,7 @@ public class NBTTags {
      * @return Your ItemStack with NBT data added
      */
     @NotNull
-    public static ItemStack addNBTTag(@NotNull ItemStack item, @NotNull final String key, @NotNull final Float value) {
-
-        try {
-            final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
-            final Class<?> craftItemStackClass = Reflection.getCraftbukkitClass("inventory.CraftItemStack");
-            final Class<?> nbtTagCompoundClass = Reflection.getNMSClass("NBTTagCompound");
-
-            final Method asNMSCopy = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
-            final Method asBukkitCopy = craftItemStackClass.getMethod("asBukkitCopy", itemStackClass);
-
-            final Method hasTag = itemStackClass.getMethod("hasTag");
-            final Method getTag = itemStackClass.getMethod("getTag");
-            final Method setTag = itemStackClass.getMethod("setTag", nbtTagCompoundClass);
-
-            final Method setFloat = nbtTagCompoundClass.getMethod("setFloat", String.class, Float.class);
-
-            final Object nmsItem = asNMSCopy.invoke(null, item);
-
-            Object compound;
-
-            if ((boolean) hasTag.invoke(nmsItem)) {
-                compound = getTag.invoke(nmsItem);
-            } else {
-                compound = nbtTagCompoundClass.newInstance();
-            }
-
-            setFloat.invoke(compound, key, value);
-
-            setTag.invoke(nmsItem, compound);
-
-            item = (ItemStack) asBukkitCopy.invoke(null, nmsItem);
-
-
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ignored) { }
-
-
-        return item;
-    }
-
-    /**
-     * With this method you can add NBT Tag data to item. Written with reflection so it should work on all versions.
-     *
-     * @param item Item you want to add
-     * @param key Key under which your data will be added
-     * @param value Value you want to add
-     * @return Your ItemStack with NBT data added
-     */
-    @NotNull
-    public static ItemStack addNBTTag(@NotNull ItemStack item, @NotNull final String key, @NotNull final boolean value) {
+    public static ItemStack setBoolean(@NotNull ItemStack item, @NotNull final String key, final boolean value) {
 
         try {
             final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
@@ -252,6 +498,224 @@ public class NBTTags {
         return item;
     }
 
+    // endregion
+    // region Getting Data
+
+    /**
+     * Get NBT data from Item. Written with reflection so it should work on all versions.
+     * If there is no data saved under your key result will be null.
+     *
+     * @param item Item you want to get data from
+     * @param key Key under which data you are trying to get is saved
+     * @return NBT data from Item
+     */
+    public static byte getByte(@NotNull ItemStack item, @NotNull final String key) {
+
+        try {
+            final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
+            final Class<?> craftItemStackClass = Reflection.getCraftbukkitClass("inventory.CraftItemStack");
+            final Class<?> nbtTagCompoundClass = Reflection.getNMSClass("NBTTagCompound");
+
+            final Method asNMSCopy = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
+            final Method hasTag = itemStackClass.getMethod("hasTag");
+            final Method getTag = itemStackClass.getMethod("getTag");
+
+            final Method getByte = nbtTagCompoundClass.getMethod("getByte", String.class);
+
+            final Object nmsItem = asNMSCopy.invoke(null, item);
+
+            if ((boolean) hasTag.invoke(nmsItem)) {
+                final Object compound = getTag.invoke(nmsItem);
+
+
+                return (byte) getByte.invoke(compound, key);
+            }
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassCastException ignored) { }
+
+
+        return 0;
+    }
+
+    /**
+     * Get NBT data from Item. Written with reflection so it should work on all versions.
+     * If there is no data saved under your key result will be null.
+     *
+     * @param item Item you want to get data from
+     * @param key Key under which data you are trying to get is saved
+     * @return NBT data from Item
+     */
+    public static short getShort(@NotNull ItemStack item, @NotNull final String key) {
+
+        try {
+            final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
+            final Class<?> craftItemStackClass = Reflection.getCraftbukkitClass("inventory.CraftItemStack");
+            final Class<?> nbtTagCompoundClass = Reflection.getNMSClass("NBTTagCompound");
+
+            final Method asNMSCopy = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
+            final Method hasTag = itemStackClass.getMethod("hasTag");
+            final Method getTag = itemStackClass.getMethod("getTag");
+
+            final Method getShort = nbtTagCompoundClass.getMethod("getShort", String.class);
+
+            final Object nmsItem = asNMSCopy.invoke(null, item);
+
+            if ((boolean) hasTag.invoke(nmsItem)) {
+                final Object compound = getTag.invoke(nmsItem);
+
+
+                return (short) getShort.invoke(compound, key);
+            }
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassCastException ignored) { }
+
+
+        return 0;
+    }
+
+    /**
+     * Get NBT data from Item. Written with reflection so it should work on all versions.
+     * If there is no data saved under your key result will be null.
+     *
+     * @param item Item you want to get data from
+     * @param key Key under which data you are trying to get is saved
+     * @return NBT data from Item
+     */
+    public static int getInt(@NotNull ItemStack item, @NotNull final String key) {
+
+        try {
+            final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
+            final Class<?> craftItemStackClass = Reflection.getCraftbukkitClass("inventory.CraftItemStack");
+            final Class<?> nbtTagCompoundClass = Reflection.getNMSClass("NBTTagCompound");
+
+            final Method asNMSCopy = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
+            final Method hasTag = itemStackClass.getMethod("hasTag");
+            final Method getTag = itemStackClass.getMethod("getTag");
+
+            final Method getInt = nbtTagCompoundClass.getMethod("getInt", String.class);
+
+            final Object nmsItem = asNMSCopy.invoke(null, item);
+
+            if ((boolean) hasTag.invoke(nmsItem)) {
+                final Object compound = getTag.invoke(nmsItem);
+
+
+                return (int) getInt.invoke(compound, key);
+            }
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassCastException ignored) { }
+
+
+        return 0;
+    }
+
+    /**
+     * Get NBT data from Item. Written with reflection so it should work on all versions.
+     * If there is no data saved under your key result will be null.
+     *
+     * @param item Item you want to get data from
+     * @param key Key under which data you are trying to get is saved
+     * @return NBT data from Item
+     */
+    public static long getLong(@NotNull ItemStack item, @NotNull final String key) {
+
+        try {
+            final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
+            final Class<?> craftItemStackClass = Reflection.getCraftbukkitClass("inventory.CraftItemStack");
+            final Class<?> nbtTagCompoundClass = Reflection.getNMSClass("NBTTagCompound");
+
+            final Method asNMSCopy = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
+            final Method hasTag = itemStackClass.getMethod("hasTag");
+            final Method getTag = itemStackClass.getMethod("getTag");
+
+            final Method getLong = nbtTagCompoundClass.getMethod("getLong", String.class);
+
+            final Object nmsItem = asNMSCopy.invoke(null, item);
+
+            if ((boolean) hasTag.invoke(nmsItem)) {
+                final Object compound = getTag.invoke(nmsItem);
+
+
+                return (long) getLong.invoke(compound, key);
+            }
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassCastException ignored) { }
+
+
+        return 0;
+    }
+
+    /**
+     * Get NBT data from Item. Written with reflection so it should work on all versions.
+     * If there is no data saved under your key result will be null.
+     *
+     * @param item Item you want to get data from
+     * @param key Key under which data you are trying to get is saved
+     * @return NBT data from Item
+     */
+    public static float getFloat(@NotNull ItemStack item, @NotNull final String key) {
+
+        try {
+            final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
+            final Class<?> craftItemStackClass = Reflection.getCraftbukkitClass("inventory.CraftItemStack");
+            final Class<?> nbtTagCompoundClass = Reflection.getNMSClass("NBTTagCompound");
+
+            final Method asNMSCopy = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
+            final Method hasTag = itemStackClass.getMethod("hasTag");
+            final Method getTag = itemStackClass.getMethod("getTag");
+
+            final Method getFloat = nbtTagCompoundClass.getMethod("getFloat", String.class);
+
+            final Object nmsItem = asNMSCopy.invoke(null, item);
+
+            if ((boolean) hasTag.invoke(nmsItem)) {
+                final Object compound = getTag.invoke(nmsItem);
+
+
+                return (float) getFloat.invoke(compound, key);
+            }
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassCastException ignored) { }
+
+
+        return 0;
+    }
+
+    /**
+     * Get NBT data from Item. Written with reflection so it should work on all versions.
+     * If there is no data saved under your key result will be null.
+     *
+     * @param item Item you want to get data from
+     * @param key Key under which data you are trying to get is saved
+     * @return NBT data from Item
+     */
+    public static double getDouble(@NotNull ItemStack item, @NotNull final String key) {
+
+        try {
+            final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
+            final Class<?> craftItemStackClass = Reflection.getCraftbukkitClass("inventory.CraftItemStack");
+            final Class<?> nbtTagCompoundClass = Reflection.getNMSClass("NBTTagCompound");
+
+            final Method asNMSCopy = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
+            final Method hasTag = itemStackClass.getMethod("hasTag");
+            final Method getTag = itemStackClass.getMethod("getTag");
+
+            final Method getDouble = nbtTagCompoundClass.getMethod("getDouble", String.class);
+
+            final Object nmsItem = asNMSCopy.invoke(null, item);
+
+            if ((boolean) hasTag.invoke(nmsItem)) {
+                final Object compound = getTag.invoke(nmsItem);
+
+
+                return (double) getDouble.invoke(compound, key);
+            }
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassCastException ignored) { }
+
+
+        return 0;
+    }
 
     /**
      * Get NBT data from Item. Written with reflection so it should work on all versions.
@@ -299,7 +763,7 @@ public class NBTTags {
      * @return NBT data from Item
      */
     @Nullable
-    public static Integer getInteger(@NotNull ItemStack item, @NotNull final String key) {
+    public static byte[] getByteArray(@NotNull ItemStack item, @NotNull final String key) {
 
         try {
             final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
@@ -310,7 +774,7 @@ public class NBTTags {
             final Method hasTag = itemStackClass.getMethod("hasTag");
             final Method getTag = itemStackClass.getMethod("getTag");
 
-            final Method getInteger = nbtTagCompoundClass.getMethod("getIngeger", String.class);
+            final Method getByteArray = nbtTagCompoundClass.getMethod("getByteArray", String.class);
 
             final Object nmsItem = asNMSCopy.invoke(null, item);
 
@@ -318,7 +782,7 @@ public class NBTTags {
                 final Object compound = getTag.invoke(nmsItem);
 
 
-                return (Integer) getInteger.invoke(compound, key);
+                return (byte[]) getByteArray.invoke(compound, key);
             }
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassCastException ignored) { }
@@ -336,7 +800,7 @@ public class NBTTags {
      * @return NBT data from Item
      */
     @Nullable
-    public static Double getDouble(@NotNull ItemStack item, @NotNull final String key) {
+    public static int[] getIntArray(@NotNull ItemStack item, @NotNull final String key) {
 
         try {
             final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
@@ -347,7 +811,7 @@ public class NBTTags {
             final Method hasTag = itemStackClass.getMethod("hasTag");
             final Method getTag = itemStackClass.getMethod("getTag");
 
-            final Method getDouble = nbtTagCompoundClass.getMethod("getDouble", String.class);
+            final Method getIntArray = nbtTagCompoundClass.getMethod("getIntArray", String.class);
 
             final Object nmsItem = asNMSCopy.invoke(null, item);
 
@@ -355,44 +819,7 @@ public class NBTTags {
                 final Object compound = getTag.invoke(nmsItem);
 
 
-                return (Double) getDouble.invoke(compound, key);
-            }
-
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassCastException ignored) { }
-
-
-        return null;
-    }
-
-    /**
-     * Get NBT data from Item. Written with reflection so it should work on all versions.
-     * If there is no data saved under your key result will be null.
-     *
-     * @param item Item you want to get data from
-     * @param key Key under which data you are trying to get is saved
-     * @return NBT data from Item
-     */
-    @Nullable
-    public static Float getFloat(@NotNull ItemStack item, @NotNull final String key) {
-
-        try {
-            final Class<?> itemStackClass = Reflection.getNMSClass("ItemStack");
-            final Class<?> craftItemStackClass = Reflection.getCraftbukkitClass("inventory.CraftItemStack");
-            final Class<?> nbtTagCompoundClass = Reflection.getNMSClass("NBTTagCompound");
-
-            final Method asNMSCopy = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
-            final Method hasTag = itemStackClass.getMethod("hasTag");
-            final Method getTag = itemStackClass.getMethod("getTag");
-
-            final Method getFloat = nbtTagCompoundClass.getMethod("getFloat", String.class);
-
-            final Object nmsItem = asNMSCopy.invoke(null, item);
-
-            if ((boolean) hasTag.invoke(nmsItem)) {
-                final Object compound = getTag.invoke(nmsItem);
-
-
-                return (Float) getFloat.invoke(compound, key);
+                return (int[]) getIntArray.invoke(compound, key);
             }
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassCastException ignored) { }
@@ -409,6 +836,7 @@ public class NBTTags {
      * @param key Key under which data you are trying to get is saved
      * @return NBT data from Item
      */
+
     public static boolean getBoolean(@NotNull ItemStack item, @NotNull final String key) {
 
         try {
@@ -435,4 +863,7 @@ public class NBTTags {
 
         return false;
     }
+
+    // endregion
+
 }

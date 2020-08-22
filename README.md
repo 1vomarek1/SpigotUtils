@@ -18,7 +18,7 @@ If you wish to use SpigotUtils you can import them with maven.
         <dependency>
             <groupId>com.vomarek</groupId>
             <artifactId>spigotutils</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
